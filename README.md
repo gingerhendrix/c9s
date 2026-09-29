@@ -2,7 +2,7 @@
 
 A k9s-style terminal UI for Cloudflare. It is built with [Tooee](https://github.com/gingerhendrix/tooee) and gets all its data from Cloudflare's new [`cf` CLI](https://github.com/cloudflare/cf).
 
-![c9s showing the DNS records of a zone](docs/screenshots/dns.png)
+![c9s showing the DNS records of a zone](https://raw.githubusercontent.com/gingerhendrix/c9s/main/docs/screenshots/dns.png)
 
 c9s lists your zones, DNS records, Workers, KV, R2, D1, Queues, Pages, Durable Objects and Tunnels. You move through them the k9s way. Press `:` to jump to a resource, `/` to filter, Enter to drill down, `d` to describe and Esc to go back.
 
@@ -12,26 +12,39 @@ c9s is read-only. It never sends a create, update or delete call.
 
 ## Quick start
 
-You need [Bun](https://bun.sh) 1.3 or later.
+You need [Bun](https://bun.sh) 1.3 or later. Try c9s with its built-in demo data. You do not need a Cloudflare account for this:
 
 ```bash
-git clone <this repo> c9s && cd c9s
-bun install
-bun run demo          # built-in demo data, no Cloudflare account needed
+bunx @tooee/c9s --demo
 ```
 
-To see your own account, install `cf` (it needs Node 22 or later) and log in:
+To see your own account, install `cf` (it needs Node 22 or later) and log in. Then run c9s with no flags:
 
 ```bash
 npm install -g cf
 cf auth login                         # or: export CLOUDFLARE_API_TOKEN=...
-bun src/cli.tsx                       # or ./bin/c9s
+bunx @tooee/c9s
+```
+
+To keep the `c9s` command on your PATH, install it globally:
+
+```bash
+bun add -g @tooee/c9s
+c9s --demo
 ```
 
 To browse the KV, D1 and R2 state that `cf` keeps for local development:
 
 ```bash
-bun src/cli.tsx --local
+c9s --local
+```
+
+To run c9s from a clone of this repository:
+
+```bash
+git clone https://github.com/gingerhendrix/c9s.git && cd c9s
+bun install
+bun run demo
 ```
 
 ## Keys
@@ -73,11 +86,11 @@ Vim-style movement works everywhere: `j`, `k`, `g g`, `shift-g`, `ctrl-d`, `ctrl
 
 Run `c9s --resources` to list every resource, including the generic ones.
 
-![The resource picker, filtered to AI Gateway](docs/screenshots/picker.png)
+![The resource picker, filtered to AI Gateway](https://raw.githubusercontent.com/gingerhendrix/c9s/main/docs/screenshots/picker.png)
 
 | Describe | Worker deployments |
 | --- | --- |
-| ![A DNS record described as YAML](docs/screenshots/describe.png) | ![Worker deployments with a 10% canary split](docs/screenshots/deployments.png) |
+| ![A DNS record described as YAML](https://raw.githubusercontent.com/gingerhendrix/c9s/main/docs/screenshots/describe.png) | ![Worker deployments with a 10% canary split](https://raw.githubusercontent.com/gingerhendrix/c9s/main/docs/screenshots/deployments.png) |
 
 ## Options
 
@@ -162,6 +175,10 @@ test/                bun:test suites; test/app drives the whole UI headlessly
 - `cf workers tail` does not exist yet ([cf#68](https://github.com/cloudflare/cf/issues/68)), so there is no log view.
 - `--local` shows only resources that already exist in `cf`'s local state.
 - `cf` is a beta. Response shapes for generic commands can change between releases.
+
+## Releasing
+
+Releases go to npm as [`@tooee/c9s`](https://www.npmjs.com/package/@tooee/c9s). The steps are in [RELEASING.md](RELEASING.md), and the changes are in [CHANGELOG.md](CHANGELOG.md).
 
 ## Licence
 

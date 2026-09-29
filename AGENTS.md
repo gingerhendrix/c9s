@@ -13,6 +13,8 @@ bun run format       # oxfmt
 bun run demo         # run against built-in fixtures
 ```
 
+Releases: see `RELEASING.md`. Bump `version` in `package.json` and add a `CHANGELOG.md` entry in the same commit.
+
 ## Rules
 
 - **Read-only.** Resource kinds must only send `list` and `get` calls. `test/resources/registry.test.ts` checks for write verbs.
@@ -25,4 +27,4 @@ bun run demo         # run against built-in fixtures
 
 ## Testing TUI changes
 
-`test/app/app.test.tsx` renders the whole app in demo mode on OpenTUI's headless renderer and drives it with key presses. For screenshots or recordings, use `termctrl` with `--host opentui` (see the Personal `tui-video-evidence` skill). `termctrl`'s `enter` key does not reach OpenTUI as Return; send `\r` on stdin instead.
+`test/app/app.test.tsx` renders the whole app in demo mode on OpenTUI's headless renderer and drives it with key presses. For screenshots or recordings, use [`termctrl`](https://crates.io/crates/terminal-control) with `--host opentui`. `termctrl`'s `enter` key does not reach OpenTUI as Return; send `\r` on stdin instead.

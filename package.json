@@ -13,6 +13,14 @@
   ],
   "license": "MIT",
   "author": "Gareth Andrew",
+  "homepage": "https://github.com/gingerhendrix/c9s#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gingerhendrix/c9s.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gingerhendrix/c9s/issues"
+  },
   "type": "module",
   "bin": {
     "c9s": "./bin/c9s"
@@ -32,7 +40,8 @@
     "test": "bun test",
     "lint": "oxlint src test",
     "format": "oxfmt --write src test",
-    "format:check": "oxfmt --check src test"
+    "format:check": "oxfmt --check src test",
+    "prepublishOnly": "bun run check && bun run lint && bun test"
   },
   "engines": {
     "bun": ">=1.3"
