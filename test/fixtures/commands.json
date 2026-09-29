@@ -1,0 +1,93 @@
+{
+  "version": "1.0",
+  "generatedAt": "build-time",
+  "descriptions": {
+    "zones": "Zones in the account",
+    "widgets": "Widgets for testing",
+    "widgets parts": "Parts of widgets"
+  },
+  "commands": [
+    {
+      "command": "cf zones list",
+      "fullPath": ["zones", "list"],
+      "summary": "List Zones",
+      "category": "read",
+      "httpMethod": "GET",
+      "apiPath": "/zones",
+      "arguments": [],
+      "options": [{ "name": "per-page", "required": false }]
+    },
+    {
+      "command": "cf widgets list",
+      "fullPath": ["widgets", "list"],
+      "summary": "List widgets",
+      "category": "read",
+      "httpMethod": "GET",
+      "apiPath": "/accounts/{account_id}/widgets",
+      "arguments": [],
+      "options": []
+    },
+    {
+      "command": "cf widgets get",
+      "fullPath": ["widgets", "get"],
+      "summary": "Get a widget",
+      "category": "read",
+      "httpMethod": "GET",
+      "apiPath": "/accounts/{account_id}/widgets/{widget_id}",
+      "arguments": [{ "name": "widget-id", "required": true }],
+      "options": []
+    },
+    {
+      "command": "cf widgets delete",
+      "fullPath": ["widgets", "delete"],
+      "summary": "Delete a widget",
+      "category": "delete",
+      "httpMethod": "DELETE",
+      "apiPath": "/accounts/{account_id}/widgets/{widget_id}",
+      "arguments": [{ "name": "widget-id", "required": true }],
+      "options": []
+    },
+    {
+      "command": "cf widgets parts list",
+      "fullPath": ["widgets", "parts", "list"],
+      "summary": "List parts",
+      "category": "read",
+      "httpMethod": "GET",
+      "apiPath": "/accounts/{account_id}/widgets/{widget_id}/parts",
+      "arguments": [],
+      "options": [{ "name": "widget-id", "required": true }]
+    },
+    {
+      "command": "cf rules list",
+      "fullPath": ["rules", "list"],
+      "summary": "List rules",
+      "category": "read",
+      "httpMethod": "GET",
+      "apiPath": "/zones/{zone_id}/rules",
+      "arguments": [],
+      "options": []
+    },
+    {
+      "command": "cf secret list",
+      "fullPath": ["secret", "list"],
+      "summary": "Hidden",
+      "category": "read",
+      "httpMethod": "GET",
+      "apiPath": "/accounts/{account_id}/secret",
+      "arguments": [],
+      "options": [],
+      "hideCommand": true
+    },
+    {
+      "command": "cf shared list",
+      "fullPath": ["shared", "list"],
+      "summary": "Account or zone",
+      "category": "read",
+      "httpMethod": "GET",
+      "apiPath": "/{account_or_zone}/{account_or_zone_id}/shared",
+      "arguments": [],
+      "options": []
+    },
+    "not a command"
+  ]
+}

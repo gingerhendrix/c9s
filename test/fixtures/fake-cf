@@ -1,0 +1,54 @@
+#!/usr/bin/env bun
+/**
+ * A stand-in for the `cf` CLI. The first argument picks a behaviour:
+ *   echo       print argv and selected env as JSON, exit 0
+ *   hang       print JSON, then never exit (like `cf --local` 1.0.0-beta.5)
+ *   fail-auth  print cf's auth error box on stderr, exit 1
+ *   fail-api   print an APIError box, exit 1
+ *   text       print plain text, exit 0
+ *   slow       sleep 5s, then print JSON
+ *   --version  print a version banner
+ */
+const [mode = "echo", ...rest] = process.argv.slice(2);
+
+switch (mode) {
+  case "--version":
+    console.log("🍊☁️  cf · v1.0.0-beta.5");
+    console.log("────────────────────────");
+    break;
+  case "echo":
+    console.log(
+      JSON.stringify({
+        account: process.env.CLOUDFLARE_ACCOUNT_ID ?? null,
+        args: rest,
+        noColor: process.env.NO_COLOR ?? null,
+        osc: process.env.CF_NO_OSC_PROGRESS ?? null,
+      })
+    );
+    break;
+  case "hang":
+    console.log(JSON.stringify([{ id: "a" }]));
+    setInterval(() => undefined, 1000);
+    break;
+  case "fail-auth":
+    process.stderr.write(
+      "┌ Authentication required\n│ No authentication token found.\n│\n│ Please set one of the following:\n│   1. Set the CLOUDFLARE_API_TOKEN environment variable\n└\n"
+    );
+    process.exit(1);
+    break;
+  case "fail-api":
+    process.stderr.write(
+      "Commands\n  cf zones  Zones\n\n┌ APIError\n│ [error] This command has no local equivalent. Re-run without --local to use the Cloudflare API.\n│ 404 Not Found\n└\n"
+    );
+    process.exit(1);
+    break;
+  case "text":
+    process.stdout.write("hello value\n");
+    break;
+  case "slow":
+    await Bun.sleep(5000);
+    console.log("[]");
+    break;
+  default:
+    process.exit(3);
+}
