@@ -10,6 +10,7 @@ import {
   statusTone,
   text,
   toTime,
+  truncate,
 } from "../../src/resources/format.ts";
 
 const NOW = Date.parse("2026-09-29T12:00:00Z");
@@ -60,5 +61,12 @@ describe("format", () => {
     expect(statusTone("full")).toBe("text");
     expect(headerFor("created_on")).toBe("CREATED ON");
     expect(headerFor("hasStoredData")).toBe("HAS STORED DATA");
+  });
+
+  test("truncate cuts long values with an ellipsis", () => {
+    expect(truncate("acme", 10)).toBe("acme");
+    expect(truncate("Gingerhendrix@example.com's Account", 12)).toBe("Gingerhendr…");
+    expect(truncate("abc", 3)).toBe("abc");
+    expect(truncate("abcd", 0)).toBe("");
   });
 });

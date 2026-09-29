@@ -146,6 +146,14 @@ export const shortId = function shortId(value: unknown, length = 8): string {
   return id.length > length ? id.slice(0, length) : id;
 };
 
+/** Cuts `value` to at most `width` characters, ending with "…" when it is cut. */
+export const truncate = function truncate(value: string, width: number): string {
+  if (value.length <= width) {
+    return value;
+  }
+  return width <= 0 ? "" : `${value.slice(0, width - 1)}…`;
+};
+
 const SUCCESS = new Set([
   "active",
   "healthy",

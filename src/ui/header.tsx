@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 
 import { usePromise, useServices, useSession } from "../app/services.tsx";
 import type { CfMode } from "../cf/types.ts";
+import { truncate } from "../resources/format.ts";
 import { BRAND } from "./palette.ts";
 
 export interface Hint {
@@ -13,6 +14,8 @@ export interface Hint {
 
 const HINT_ROWS = 6;
 const LOGO_WIDTH = 28;
+const CONTEXT_WIDTH = 38;
+const LABEL_WIDTH = 9;
 
 const MODE_LABELS: Record<CfMode, { text: string; tone: "success" | "warning" | "info" }> = {
   demo: { text: "demo (fixtures)", tone: "warning" },
@@ -32,11 +35,14 @@ const ContextLine = function ContextLine({
   color?: string;
 }): ReactNode {
   const { theme } = useTheme();
+  // A value wider than the column wraps and overprints the next line, so cut it
+  // and keep one blank column before the hotkey hints.
+  const room = CONTEXT_WIDTH - LABEL_WIDTH - 1 - (detail === undefined ? 0 : detail.length + 1);
   return (
     <text>
-      <span fg={BRAND}>{label.padEnd(9)}</span>
+      <span fg={BRAND}>{label.padEnd(LABEL_WIDTH)}</span>
       <span fg={color ?? theme.text}>
-        <strong>{value}</strong>
+        <strong>{truncate(value, room)}</strong>
       </span>
       {detail === undefined ? null : <span fg={theme.textMuted}>{` ${detail}`}</span>}
     </text>
@@ -64,7 +70,7 @@ export const Header = function Header({ hints }: { hints: readonly Hint[] }): Re
 
   return (
     <box flexDirection="row" flexShrink={0} height={HINT_ROWS} paddingLeft={1} paddingRight={1}>
-      <box flexDirection="column" width={38} flexShrink={0}>
+      <box flexDirection="column" width={CONTEXT_WIDTH} flexShrink={0}>
         <ContextLine
           label="Account:"
           value={session.accountName ?? session.accountId?.slice(0, 12) ?? "none"}
